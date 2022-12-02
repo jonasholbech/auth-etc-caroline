@@ -1,7 +1,8 @@
+import { useContext } from "react";
 import { AuthContext } from "../context/auth";
 
 const useAuth = () => {
-  const value = React.useContext(AuthContext);
+  const value = useContext(AuthContext);
 
   if (!value) {
     console.error("This does not work");

@@ -6,10 +6,16 @@ const AuthProvider = (props) => {
   const [auth, setAuth] = useState(null);
   useEffect(() => {
     supabaseClient.auth.onAuthStateChange((event, session) => {
-      //console.log(event, session);
       setAuth(session);
     });
+    if (!auth) {
+      supabaseClient.auth.getSession().then((response) => {
+        if (!response.data.session) return;
+        setAuth(response.data.session);
+      });
+    }
   }, []);
+
   const login = async () => {
     const { data, error } = await supabaseClient.auth.signInWithOAuth({
       provider: "github",
